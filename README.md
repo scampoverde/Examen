@@ -20,7 +20,7 @@ Para poder usar el codigo main se debe tener instalado y/o cuenta:
 -GitHub
 -MongoDB
 ## Tecnologia
-1.HTML
+1.GitHub
 2.Python
 3.MongoDB
 ## Licencia
