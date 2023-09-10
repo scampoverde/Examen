@@ -1,40 +1,35 @@
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from db import MongoDriver
+# Importar las bibliotecas necesarias
+from flask import Flask, jsonify
+from pymongo import MongoClient
+import requests
 
-driver = webdriver.Chrome()
-driver.get("https://ecuador.patiotuerca.com/")
-search_box = driver.find_element(by=By.CSS_SELECTOR, value="#search-list")
-search_box.send_keys("Audi A4")
+# Configuración de Flask
+app = Flask(__name__)
 
-search_button = driver.find_element(by=By.CSS_SELECTOR, value="#openSearch > div > div > div.search-ots.false > img")
-search_button.click()
+# Configuración de MongoDB Atlas
+client = MongoClient ("mongodb+srv://dbuser:kxepJMSqx3IhLrKY@atlascluster.enwmmib.mongodb.net/?retryWrites=true&w=majority")
 
-vehicle_cards = driver.find_elements(By.CSS_SELECTOR, "#featuredUsed > div.xl3")
+db = client.weather_data
+collection = db.weather
 
-mongodb = MongoDriver()
+# Función para obtener datos meteorológicos de una API y almacenarlos en MongoDB
+def obtener_y_almacenar_datos():
+    api_key = "ydEdfb5nO87zWpME2fkRAx5nJAGTF2Ah"
+    ciudad = "SAM"
+    url = f"http://dataservice.accuweather.com/locations/v1/7894?apikey={api_key}"
 
-for card in vehicle_cards:
-    try:
-        title = card.find_element(By.CSS_SELECTOR, "div > div > div > div.card-info.card-content > div.module.tittle").text
-        kms_y_city = card.find_element(By.CSS_SELECTOR, "div > div > div > div.card-info.card-content > div.latam-secondary-text.text-lighten-2.left.vehicle-highlight").text
-        price = card.find_element(By.CSS_SELECTOR, "div > div > div > div.card-info.card-content > strong").text
-        print(title)
-        print(kms_y_city)
-        print(f"${price}")
+    response = requests.get(url)
+    data = response.json()
 
-        coche_actual = {
-            "title": title,
-            "kms_y_city": kms_y_city,
-            "price": price
-        }
+    # Almacenar datos en MongoDB
+    collection.insert_one(data)
 
-        mongodb.insert_record(record=coche_actual, username="audi")
+# Ruta para obtener los datos almacenados en MongoDB
+@app.route('/obtener_datos', methods=['GET'])
+def obtener_datos():
+    datos = list(collection.find())
+    return jsonify(datos)
 
-        print("++++++++++++++++++++++++++++++++")
-    except Exception as e:
-        print(e)
-        print("++++++++++++++++++++++++++++++++")
-
-
-driver.close()
+if __name__ == '__main__':
+    obtener_y_almacenar_datos()
+    app.run(debug=True)
