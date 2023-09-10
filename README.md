@@ -1,4 +1,4 @@
-# WEATHER_DATA
+Ec# WEATHER_DATA
 
 ## Tabla de Contenido
 - [Examen](#examen)
@@ -28,3 +28,15 @@ Para poder usar el codigo main se debe tener instalado y/o cuenta:
 The MIT License (MIT)
 
 Copyright (SC) 2022
+
+*Comentarios para el revisor* 
+Evidencia de Ejecucion:
+ * Serving Flask app 'main1'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 420-388-815
+ * 
