@@ -41,5 +41,5 @@ Press CTRL+C to quit
  * Debugger is active!
  * Debugger PIN: 420-388-815
 
-*Mongo*
+*Mongo:*
 ![image](https://github.com/scampoverde/Examen/assets/140032905/e04dbb71-c7b5-4720-a225-e293f33bcc6d)
