@@ -1,4 +1,4 @@
-Ec# WEATHER_DATA
+# WEATHER_DATA
 
 ## Tabla de Contenido
 - [Examen](#examen)
